@@ -1,4 +1,4 @@
-name: Unattended Proposal Campaign Loop
+\name: Unattended Proposal Campaign Loop
 
 on:
   schedule:
@@ -32,7 +32,7 @@ jobs:
           SENDER_PASSWORD: ${{ secrets.SENDER_PASSWORD }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          model: google/gemini-2.5-flash
+          model: google/gemini-3.1-flash-lite
           use_github_token: "true"
           prompt: "Follow PROMPT.md. Check inbox first, parse any incoming reply, update state files, and act accordingly."
 
