@@ -1,0 +1,46 @@
+name: Unattended Proposal Campaign Loop
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"  # Runs every 30 minutes
+  workflow_dispatch:        # Manual run button
+
+jobs:
+  run-campaign-beat:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run OpenCode Beat
+        uses: anomalyco/opencode/github@latest
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          SENDER_EMAIL: ${{ secrets.SENDER_EMAIL }}
+          SENDER_PASSWORD: ${{ secrets.SENDER_PASSWORD }}
+        with:
+          model: google/gemini-2.5-flash
+          prompt: "Follow PROMPT.md. Check inbox first, parse any incoming reply, update state files, and act accordingly."
+
+      - name: Check Completion Guard
+        id: checker
+        run: python check_completion.py
+        continue-on-error: true
+
+      - name: Commit and Push Updated State
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add state.json TODO.md PROGRESS.md
+          git diff-index --quiet HEAD || git commit -m "chore: auto-update campaign state [skip ci]"
+          git push

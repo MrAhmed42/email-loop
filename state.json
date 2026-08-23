@@ -1,0 +1,9 @@
+{
+  "rejection_count": 0,
+  "max_rejections": 5,
+  "status": "IN_PROGRESS",
+  "last_processed_id": null,
+  "last_action_hash": null,
+  "consecutive_repeat_count": 0,
+  "max_allowed_repeats": 3
+}
