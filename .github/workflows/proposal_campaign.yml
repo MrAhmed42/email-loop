@@ -46,7 +46,7 @@ jobs:
         with:
           model: google/gemini-3.1-flash-lite
           use_github_token: "true"
-          prompt: "Follow PROMPT.md. Check inbox first, parse any incoming reply, update state files, and act accordingly."
+          prompt: "Follow PROMPT.md directly in this repo. Check inbox first, parse any incoming reply, update state files directly on this workspace, and act accordingly."
 
       - name: Check Completion Guard
         id: checker
