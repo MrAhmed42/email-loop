@@ -1,4 +1,4 @@
-\name: Unattended Proposal Campaign Loop
+name: Unattended Proposal Campaign Loop
 
 on:
   schedule:
@@ -23,6 +23,11 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install python-dotenv
+
       - name: Run OpenCode Beat
         uses: anomalyco/opencode/github@latest
         env:
@@ -32,7 +37,7 @@ jobs:
           SENDER_PASSWORD: ${{ secrets.SENDER_PASSWORD }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          model: google/gemini-3.1-flash-lite
+          model: google/gemini-2.5-flash
           use_github_token: "true"
           prompt: "Follow PROMPT.md. Check inbox first, parse any incoming reply, update state files, and act accordingly."
 
