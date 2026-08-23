@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-      id-token: write   # <-- ADD THIS LINE
+      id-token: write
 
     steps:
       - name: Checkout Code
@@ -29,8 +29,10 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           SENDER_EMAIL: ${{ secrets.SENDER_EMAIL }}
           SENDER_PASSWORD: ${{ secrets.SENDER_PASSWORD }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           model: google/gemini-2.5-flash
+          use_github_token: "true"
           prompt: "Follow PROMPT.md. Check inbox first, parse any incoming reply, update state files, and act accordingly."
 
       - name: Check Completion Guard
