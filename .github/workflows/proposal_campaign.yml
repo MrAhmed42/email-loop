@@ -2,14 +2,15 @@ name: Unattended Proposal Campaign Loop
 
 on:
   schedule:
-    - cron: "*/30 * * * *"  # Runs every 30 minutes
-  workflow_dispatch:        # Manual run button
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
 
 jobs:
   run-campaign-beat:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      id-token: write   # <-- ADD THIS LINE
 
     steps:
       - name: Checkout Code
