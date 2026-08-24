@@ -37,3 +37,12 @@
 - **Result:** EMAIL_SENT_SUCCESSFULLY
 - **State After:** ACCEPTED, rejection_count=1, last_processed_id=5782
 
+### 2026-08-24 — Acceptance Received → Acknowledgement Sent
+- **Inbox Check:** REPLY_FOUND (message_id: 5783)
+- **Reply:** "ok, i am interested, but now, not email me again..." (Re: Business Proposal - Collaboration Opportunity)
+- **Classification:** Case A — ACCEPTANCE / INTEREST
+- **State Before:** IN_PROGRESS, rejection_count=0, last_processed_id=null
+- **Action:** Sent acknowledgement response email respecting the "not email me again" request and waiting for contact tomorrow
+- **Result:** EMAIL_SENT_SUCCESSFULLY
+- **State After:** ACCEPTED, rejection_count=0, last_processed_id=5783
+
