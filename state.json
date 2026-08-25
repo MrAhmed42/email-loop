@@ -1,9 +1,9 @@
 {
   "rejection_count": 0,
   "max_rejections": 5,
-  "status": "IN_PROGRESS",
-  "last_processed_id": null,
-  "last_action_hash": null,
+  "status": "ACCEPTED",
+  "last_processed_id": "5783",
+  "last_action_hash": "sent_acknowledgment_email_5783",
   "consecutive_repeat_count": 0,
   "max_allowed_repeats": 3
 }
