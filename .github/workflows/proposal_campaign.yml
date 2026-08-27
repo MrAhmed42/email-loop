@@ -46,7 +46,7 @@ jobs:
         with:
           model: google/gemini-3.1-flash-lite
           use_github_token: "true"
-          prompt: "Follow PROMPT.md directly in this repo. Check inbox first. ONLY send an email if state.json indicates a follow-up is due. If no action is needed, do NOT send any email, simply update state files and exit."
+          prompt: "Execute the email-campaign skill. Check inbox, follow triage rules, update state files, and exit cleanly."
 
       - name: Check Completion Guard
         id: checker
