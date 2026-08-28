@@ -3,8 +3,8 @@
   "mcp": {
     "email_campaign": {
       "type": "local",
-      "command": "python",
-      "args": ["mcp_server.py"]
+      "command": ["python", "mcp_server.py"],
+      "enabled": true
     }
   }
 }
