@@ -33,7 +33,7 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install python-dotenv
+          pip install python-dotenv "mcp<2"
 
       - name: Run OpenCode Beat
         uses: anomalyco/opencode/github@latest

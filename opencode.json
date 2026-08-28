@@ -1,0 +1,10 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "email_campaign": {
+      "type": "local",
+      "command": "python",
+      "args": ["mcp_server.py"]
+    }
+  }
+}
