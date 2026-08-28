@@ -1,21 +1,32 @@
 import json
+import subprocess
+import sys
 from mcp.server.fastmcp import FastMCP
 
-# Initialize FastMCP Server
 mcp = FastMCP("EmailCampaignTools")
 
 @mcp.tool()
 def check_inbox() -> str:
-    """Checks the SENDER_EMAIL inbox for new unread replies. Returns parsed JSON results."""
-    import inbox_checker
-    return inbox_checker.run_inbox_check()
+    """Checks the SENDER_EMAIL inbox for new unread replies. Returns parsed output."""
+    try:
+        result = subprocess.run(
+            [sys.executable, "inbox_checker.py"],
+            capture_output=True,
+            text=True,
+            check=True
+        )
+        return result.stdout
+    except subprocess.CalledProcessError as e:
+        return json.dumps({
+            "status": "ERROR",
+            "error": e.stderr or "Failed to run inbox_checker.py"
+        })
 
 @mcp.tool()
 def send_proposal_email(subject: str, body: str) -> str:
     """Sends a proposal or follow-up email to the lead. 
     Guarded: Will fail gracefully if state.json is already in WAITING_FOR_REPLY or ACCEPTED state.
     """
-    # 1. Read state.json for Idempotency Guard
     try:
         with open("state.json", "r") as f:
             state = json.load(f)
@@ -29,14 +40,22 @@ def send_proposal_email(subject: str, body: str) -> str:
             "reason": f"Email blocked by state guard. Current status is '{current_status}'."
         })
 
-    # 2. Execute email send logic
-    import send_email
-    success = send_email.dispatch(subject, body)
-    
-    if success:
-        return json.dumps({"status": "SUCCESS", "message": "Email sent successfully."})
-    else:
-        return json.dumps({"status": "ERROR", "reason": "SMTP transmission failed."})
+    try:
+        result = subprocess.run(
+            [sys.executable, "send_email.py", subject, body],
+            capture_output=True,
+            text=True,
+            check=True
+        )
+        return json.dumps({
+            "status": "SUCCESS",
+            "output": result.stdout
+        })
+    except subprocess.CalledProcessError as e:
+        return json.dumps({
+            "status": "ERROR",
+            "reason": e.stderr or "Failed to execute send_email.py"
+        })
 
 if __name__ == "__main__":
     mcp.run(transport="stdio")
